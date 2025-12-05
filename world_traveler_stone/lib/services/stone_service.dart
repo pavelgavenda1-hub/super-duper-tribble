@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import '../models/stone_model.dart';
 import '../utils/stone_validation_util.dart';
 import 'location_service.dart';
+import 'diamond_service.dart';
 
 class MoveResult {
   final bool success;
@@ -19,6 +20,7 @@ class MoveResult {
 class StoneService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final LocationService _locationService = LocationService();
+  final DiamondService _diamondService = DiamondService();
 
   // Move stone to new location
   Future<MoveResult> moveStone({
@@ -55,10 +57,20 @@ class StoneService {
       }
 
       // Get country from location
-      final country = await _locationService.getCountryFromLocation(
+      final newCountry = await _locationService.getCountryFromLocation(
         newPosition.latitude,
         newPosition.longitude,
       );
+
+      // Get previous country for international move detection
+      String? previousCountry;
+      if (stone.history.isNotEmpty) {
+        final lastLocation = stone.history.last.location;
+        previousCountry = await _locationService.getCountryFromLocation(
+          lastLocation.latitude,
+          lastLocation.longitude,
+        );
+      }
 
       // Create new location history entry
       final newHistory = LocationHistory(
@@ -87,6 +99,32 @@ class StoneService {
           .collection('stones')
           .doc(stoneId)
           .update(updatedStone.toJson());
+
+      // Award diamonds for moving stone
+      await _diamondService.awardForMovingStone(
+        userId: userId,
+        stoneId: stoneId,
+      );
+
+      // Award bonus for international move
+      if (newCountry != null &&
+          previousCountry != null &&
+          newCountry != previousCountry) {
+        await _diamondService.awardForInternationalMove(
+          userId: userId,
+          stoneId: stoneId,
+          fromCountry: previousCountry,
+          toCountry: newCountry,
+        );
+      }
+
+      // Award bonus for sharing story with photo
+      if (story != null && story.isNotEmpty && photoUrl != null) {
+        await _diamondService.awardForSharingStory(
+          userId: userId,
+          stoneId: stoneId,
+        );
+      }
 
       return MoveResult(
         success: true,

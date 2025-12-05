@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/stone_model.dart';
+import 'diamond_service.dart';
 
 class QRService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final DiamondService _diamondService = DiamondService();
 
   // Generate QR code string for a stone
   String generateQRCode(String stoneId) {
