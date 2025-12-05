@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../services/auth_service.dart';
 import '../map/map_screen.dart';
 import '../qr/qr_scanner_screen.dart';
-import 'profile_screen.dart';
+import '../profile/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
