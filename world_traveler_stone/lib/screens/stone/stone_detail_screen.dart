@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../services/qr_service.dart';
 import '../../models/stone_model.dart';
+import 'move_stone_screen.dart';
 
 class StoneDetailScreen extends StatelessWidget {
   final String stoneId;
@@ -182,12 +183,10 @@ class StoneDetailScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      // TODO: Navigate to MoveStoneScreen (Phase 3)
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Přemístění kamene bude přidáno v FÁZI 3',
-                          ),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MoveStoneScreen(stone: stone),
                         ),
                       );
                     },
