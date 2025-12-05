@@ -1,0 +1,50 @@
+name: world_traveler_stone
+description: A Flutter app for tracking stone travels around the world with QR codes
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase
+  firebase_core: ^2.24.0
+  firebase_auth: ^4.15.0
+  cloud_firestore: ^4.13.0
+  firebase_storage: ^11.5.0
+  firebase_messaging: ^14.7.0
+
+  # QR Code
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^3.5.2
+
+  # GPS & Location
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  permission_handler: ^11.1.0
+
+  # Maps
+  google_maps_flutter: ^2.5.0
+
+  # Notifications
+  geofence_service: ^5.1.0
+  flutter_local_notifications: ^16.2.0
+
+  # Image
+  image_picker: ^1.0.4
+
+  # UI
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
