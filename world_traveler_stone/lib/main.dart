@@ -10,7 +10,8 @@ void main() async {
   // await Firebase.initializeApp();
 
   // Initialize notification service
-  await NotificationService().init();
+  // ZAKOMENTOVÁNO PRO TESTOVÁNÍ:
+  // await NotificationService().init();
 
   runApp(const MyApp());
 }
