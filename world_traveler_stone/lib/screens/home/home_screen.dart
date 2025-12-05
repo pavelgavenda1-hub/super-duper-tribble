@@ -1,57 +1,72 @@
 import 'package:flutter/material.dart';
 import '../../services/auth_service.dart';
+import '../map/map_screen.dart';
+import '../qr/qr_scanner_screen.dart';
+import 'profile_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final authService = AuthService();
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = [
+    const MapScreen(),
+    const Center(child: Text('Statistiky - FÁZE 7')),
+    const Center(child: Text('Odměny - FÁZE 8')),
+    const ProfileScreen(),
+  ];
+
+  void _onScanTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const QRScannerScreen(),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('World Traveler Stone'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await authService.signOut();
-            },
-            tooltip: 'Odhlásit se',
+      body: _screens[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Mapa',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart),
+            label: 'Statistiky',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.card_giftcard),
+            label: 'Odměny',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profil',
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.travel_explore,
-              size: 100,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Vítejte v World Traveler Stone!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Text(
-                'Sledujte cestu vašeho kamene po celém světě.',
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _onScanTap,
+        tooltip: 'Skenovat QR kód',
+        child: const Icon(Icons.qr_code_scanner),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
