@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/stone_model.dart';
 import 'diamond_service.dart';
+import 'achievement_service.dart';
 
 // Výsledek skenování QR kódu
 enum ScanResult {
@@ -25,6 +26,7 @@ class ScanResponse {
 class QRService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final DiamondService _diamondService = DiamondService();
+  final AchievementService _achievementService = AchievementService();
 
   // Generate QR code string for a stone
   String generateQRCode(String stoneId) {
@@ -72,6 +74,9 @@ class QRService {
             relatedStoneId: stoneId,
           );
 
+          // Zkontroluj a odemkni achievementy
+          await _achievementService.checkAndUnlockAchievements(userId);
+
           return ScanResponse(
             result: ScanResult.firstScan,
             stone: newStone,
@@ -99,6 +104,9 @@ class QRService {
             reason: 'Návštěva kamene',
             relatedStoneId: stoneId,
           );
+
+          // Zkontroluj a odemkni achievementy
+          await _achievementService.checkAndUnlockAchievements(userId);
 
           return ScanResponse(
             result: ScanResult.rescan,

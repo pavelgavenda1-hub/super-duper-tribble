@@ -4,6 +4,7 @@ import '../../services/qr_service.dart';
 import '../../models/user_model.dart';
 import '../../models/stone_model.dart';
 import '../stone/stone_detail_screen.dart';
+import '../achievements/achievements_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -298,6 +299,20 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 30),
 
                 // Menu items
+                _buildMenuItem(
+                  context,
+                  icon: Icons.emoji_events,
+                  title: 'Achievementy',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AchievementsScreen(),
+                      ),
+                    );
+                  },
+                ),
+
                 _buildMenuItem(
                   context,
                   icon: Icons.bar_chart,
