@@ -33,7 +33,7 @@ dependencies:
 
   # Notifications
   geofence_service: ^6.0.0+1
-  flutter_local_notifications: ^16.2.0
+  flutter_local_notifications: ^17.0.0
 
   # Image
   image_picker: ^1.0.4
