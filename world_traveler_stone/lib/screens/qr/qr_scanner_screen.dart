@@ -55,7 +55,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       }
 
       // Získej data uživatele z Firestore
-      final userDoc = await FirebaseFirestore.instance
+      final userDoc = await firestore.FirebaseFirestore.instance
           .collection('users')
           .doc(currentUser.uid)
           .get();
