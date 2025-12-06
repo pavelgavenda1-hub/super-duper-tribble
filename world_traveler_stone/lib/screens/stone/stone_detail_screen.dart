@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
@@ -67,7 +68,7 @@ class _StoneDetailScreenState extends State<StoneDetailScreen> {
       final photoUrl = await _storageService.uploadStonePhoto(
         userId: currentUser.uid,
         stoneId: widget.stoneId,
-        imagePath: image.path,
+        imageFile: File(image.path),
       );
 
       if (photoUrl != null) {

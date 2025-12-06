@@ -152,7 +152,7 @@ class _MapScreenState extends State<MapScreen> {
                     const SizedBox(height: 5),
                     Text(
                       '${stone.history.length} destinací • '
-                      '${stone.previousOwners.length} majitelů',
+                      '${stone.visitCount} návštěv',
                       style: const TextStyle(fontSize: 14),
                     ),
                   ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import '../../services/qr_service.dart';
 import '../../services/auth_service.dart';
 import '../../services/location_service.dart';
@@ -62,11 +62,11 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       final userName = userDoc.data()?['name'] as String? ?? 'Unknown';
 
       // Získej aktuální polohu
-      GeoPoint? currentLocation;
+      firestore.GeoPoint? currentLocation;
       try {
         final position = await _locationService.getCurrentLocation();
         if (position != null) {
-          currentLocation = GeoPoint(position.latitude, position.longitude);
+          currentLocation = firestore.GeoPoint(position.latitude, position.longitude);
         }
       } catch (e) {
         print('Nepodařilo se získat polohu: $e');
